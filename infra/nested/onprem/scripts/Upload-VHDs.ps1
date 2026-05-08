@@ -46,8 +46,41 @@ function Upload-VhdAsManagedDisk {
 
     $fileSize = (Get-Item $VhdPath).Length
     $fileSizeGB = [math]::Round($fileSize / 1GB, 2)
+
+    # Azure requires (upload-size-bytes - 512) to be a multiple of MiB.
+    # If the VHD is not MiB-aligned, resize the file by padding with zeros before the 512-byte footer.
+    $MiB = 1048576
+    $dataPart = $fileSize - 512   # data portion (excluding VHD footer)
+    $remainder = $dataPart % $MiB
+    if ($remainder -ne 0) {
+        $paddingNeeded = $MiB - $remainder
+        $newDataSize = $dataPart + $paddingNeeded
+        $newFileSize = $newDataSize + 512
+        Write-Host "VHD is not MiB-aligned ($remainder bytes off). Resizing: $fileSize -> $newFileSize bytes (padding $paddingNeeded bytes)"
+        # Read the 512-byte VHD footer
+        $fs = [System.IO.File]::Open($VhdPath, 'Open', 'ReadWrite')
+        try {
+            $fs.Seek(-512, 'End') | Out-Null
+            $footer = New-Object byte[] 512
+            $fs.Read($footer, 0, 512) | Out-Null
+            # Truncate to data portion, add zero padding, then re-append footer
+            $fs.SetLength($dataPart)
+            $fs.Seek(0, 'End') | Out-Null
+            $zeroPad = New-Object byte[] $paddingNeeded
+            $fs.Write($zeroPad, 0, $paddingNeeded)
+            $fs.Write($footer, 0, 512)
+        }
+        finally {
+            $fs.Close()
+        }
+        $fileSize = (Get-Item $VhdPath).Length
+        Write-Host "Resized VHD: $fileSize bytes"
+    }
+
+    $uploadSize = $fileSize
     Write-Host "========================================"
     Write-Host "Upload: $VhdPath ($fileSizeGB GB) -> $DiskName (LUN $Lun)"
+    Write-Host "  Upload size: $uploadSize bytes"
     Write-Host "========================================"
 
     # Step 1: Create Managed Disk (for upload)
@@ -56,9 +89,8 @@ function Upload-VhdAsManagedDisk {
         --resource-group $ResourceGroupName `
         --name $DiskName `
         --upload-type Upload `
-        --upload-size-bytes $fileSize `
+        --upload-size-bytes $uploadSize `
         --sku Standard_LRS `
-        --os-type Windows `
         --location $Location `
         --output none
 
