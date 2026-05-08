@@ -147,7 +147,8 @@ $webProjectPath = Join-Path $srcRoot 'src\PartsUnlimitedWebsite\PartsUnlimitedWe
 
 # NuGet restore (website project only to avoid modelproj evaluation errors)
 Write-Host '  Restoring NuGet packages...' -ForegroundColor Yellow
-& $nugetPath restore $webProjectPath -SolutionDirectory $srcRoot
+$msbuildDir = Split-Path $msbuildPath
+& $nugetPath restore $webProjectPath -SolutionDirectory $srcRoot -MSBuildPath $msbuildDir
 if ($LASTEXITCODE -ne 0) { throw 'NuGet restore failed.' }
 
 # MSBuild — build only the website project (skip tests and modeling projects)
