@@ -2,7 +2,7 @@
 
 オンプレミス環境を模した Windows Server、SQL Server、.NET Framework ワークロードの Web 3 層アプリケーションを題材に、**Azure への移行**と**モダナイゼーション**を段階的に体験できるハンズオンラボです。  
 移行対象アプリには Microsoft 公式サンプルの **[Parts Unlimited](https://github.com/Microsoft/PartsUnlimitedE2E)**（ASP.NET MVC / .NET Framework）を使用します。  
-疑似オンプレ環境（`DC01` / `DB01` / `APP01`）を準備し、Azure Arc・Azure Migrate・各種 PaaS を使いながら、複数の移行パターンを比較できます。
+Azure 上の **Nested Hyper-V** で疑似オンプレ環境（`vm-ad01` / `vm-app01` / `vm-sql01`）を構築し、Azure Arc・Azure Migrate・各種 PaaS を使いながら、複数の移行パターンを比較できます。
 
 ---
 
@@ -10,9 +10,9 @@
 
 このラボでは、以下の一連の流れを体験できます。
 
-- 疑似オンプレ環境の構築とアプリ動作確認
+- Nested Hyper-V による疑似オンプレ環境の構築とアプリ動作確認
 - Azure Arc によるハイブリッド管理
-- Azure Migrate によるアセスメント
+- Azure Migrate によるアセスメント（Hyper-V 検出）
 - 4 つの移行/モダナイズ パターンの比較
   - Rehost
   - DB PaaS 化
@@ -36,7 +36,7 @@
 |---|---|
 | 移行元の理解 | 既存アプリ/DB/AD を含む典型的な構成の把握 |
 | ハイブリッド管理 | Azure Arc / Policy / Monitor / Defender の活用 |
-| アセスメント | Azure Migrate による移行前評価 |
+| アセスメント | Azure Migrate による移行前評価（Hyper-V 検出） |
 | 移行パターン比較 | VM 維持、DB のみ PaaS、コンテナ化、フル PaaS の違い |
 | モダナイゼーション | .NET アプリの段階的な改善アプローチ |
 
@@ -46,20 +46,16 @@
 
 ### フェーズ 1: 初期環境構築
 
-まずは、ハンズオン全体で共通利用する移行元・移行先の環境を準備します。
+まずは、ハンズオン全体で共通利用する移行元・移行先の環境を準備します。  
+疑似オンプレ環境は Nested Hyper-V で構築します。設計・構築手順の詳細は [`docs/architecture/architecture-nested-hyperv.md`](./docs/architecture/architecture-nested-hyperv.md) を参照してください。
 
-| Step | ドキュメント | 内容 |
-|---|---|---|
-| 1.0 | [`docs/handson/1.0-prerequisites.md`](./docs/handson/1.0-prerequisites.md) | 作業環境の準備（Azure CLI / Git / クローン） |
-| 1.1 | [`docs/handson/1.1-initial-setup.md`](./docs/handson/1.1-initial-setup.md) | 初期環境を一括または段階的にセットアップ |
-| 1.2 | [`docs/handson/1.2-onprem-deploy.md`](./docs/handson/1.2-onprem-deploy.md) | 疑似オンプレ環境をデプロイ |
-| 1.3 | [`docs/handson/1.3-onprem-parts-unlimited.md`](./docs/handson/1.3-onprem-parts-unlimited.md) | `DB01` / `APP01` に Parts Unlimited をセットアップ |
-| 1.4 | [`docs/handson/1.4-onprem-verification.md`](./docs/handson/1.4-onprem-verification.md) | アプリと通信を確認 |
-| 1.5 | [`docs/handson/1.5-cloud-deploy.md`](./docs/handson/1.5-cloud-deploy.md) | 移行先クラウド基盤をデプロイ |
-| 1.6 | [`docs/handson/1.6-cloud-vpn-connect.md`](./docs/handson/1.6-cloud-vpn-connect.md) | クラウド VPN 接続を構成 |
-| 1.7 | [`docs/handson/1.7-cloud-hybrid-dns.md`](./docs/handson/1.7-cloud-hybrid-dns.md) | ハイブリッド DNS を設定 |
-
-> ワンクリックで初期環境を作成したい場合は、[`docs/handson/1.1-initial-setup.md`](./docs/handson/1.1-initial-setup.md) の **Deploy to Azure** ボタンを利用できます。
+| Step | ドキュメント | 内容 | 所要時間目安 |
+|---|---|---|---|
+| 0 | [`architecture-nested-hyperv.md`](./docs/architecture/architecture-nested-hyperv.md) §2〜3 | 前提条件確認 / Windows Server VHD の入手 | 事前準備 |
+| 1 | 同 §4 (4.1〜4.8) | 疑似オンプレ環境の構築（Bicep デプロイ → VHD アップロード → VM 構築 → ドメイン参加） | 2〜3 時間 |
+| 1+ | 同 備考: SQL Server + [`1.3-onprem-parts-unlimited.md`](./docs/handson/1.3-onprem-parts-unlimited.md) | SQL Server インストール + Parts Unlimited セットアップ | 30〜60 分 |
+| 2 | [`1.5-cloud-deploy.md`](./docs/handson/1.5-cloud-deploy.md) | 移行先クラウド基盤（Hub & Spoke）をデプロイ | 45〜60 分 |
+| 3 | [`architecture-nested-hyperv.md`](./docs/architecture/architecture-nested-hyperv.md) §5〜6 | VPN 接続 + ハイブリッド DNS を構成 | 45〜60 分 |
 
 ### フェーズ 2: クラウド移行 HOL
 
@@ -78,30 +74,11 @@
 | 2.6 | [`docs/handson/2.6-cloud-compare.md`](./docs/handson/2.6-cloud-compare.md) | 結果の比較とまとめ |
 | 2.7 | [`docs/handson/2.7-cloud-cleanup.md`](./docs/handson/2.7-cloud-cleanup.md) | リソースのクリーンアップ |
 
-### Nested Hyper-V 版（代替パス）
-
-Azure VM ベースの疑似オンプレ環境ではなく、**Nested Hyper-V** を使って真の VM による疑似オンプレ環境を構築する場合は、以下のフェーズ構成で進めます。Azure Migrate の Hyper-V 検出/移行を体験でき、より本番に近いシナリオが可能です。
-
-| フェーズ | 対応ドキュメント | 内容 | 所要時間目安 |
-|---|---|---|---|
-| 0: 準備 | [`architecture-nested-hyperv.md`](./docs/architecture/architecture-nested-hyperv.md) §2〜3 | 前提条件確認 / VHD 入手 | 事前準備 |
-| 1: 疑似オンプレ構築 | 同 §4 (4.1〜4.8) | Bicep デプロイ → VHD アップロード → VM 構築 → ドメイン参加 | 2〜3 時間 |
-| 1+: SQL / アプリ | 同 備考: SQL Server + [`1.3`](./docs/handson/1.3-onprem-parts-unlimited.md) | SQL Server インストール + Parts Unlimited セットアップ | 30〜60 分 |
-| 2: クラウド基盤 | [`1.5-cloud-deploy.md`](./docs/handson/1.5-cloud-deploy.md) | Hub & Spoke デプロイ | 45〜60 分 |
-| 3: VPN & DNS | [`architecture-nested-hyperv.md`](./docs/architecture/architecture-nested-hyperv.md) §5〜6 | VPN 接続 + Hybrid DNS | 45〜60 分 |
-| 4: 移行前ステップ | [`2.1`](./docs/handson/2.1-cloud-explore-onprem.md)〜[`2.4`](./docs/handson/2.4-cloud-assessment.md) | 環境確認 → Arc → 管理 → アセスメント | 1〜2 時間 |
-| 5: Rehost | [`2.5.1`](./docs/handson/2.5.1-cloud-rehost.md) | Azure Migrate で Lift & Shift | 45〜60 分 |
-
-> **メイン手順との主な違い**:
-> - VM 名: `DC01`/`DB01`/`APP01` → `vm-ad01`/`vm-app01`/`vm-sql01`
-> - IP 体系: `10.0.1.x` → `192.168.100.x`（Hyper-V 内部 NAT）
-> - Rehost 方式: Azure Site Recovery (A2A) → Azure Migrate Hyper-V 移行
-
 ---
 
 ## アーキテクチャ概要
 
-- **移行元**: `DC01` / `DB01` / `APP01` による疑似オンプレ 3 層構成
+- **移行元**: Nested Hyper-V 上の `vm-ad01` / `vm-app01` / `vm-sql01` による疑似オンプレ 3 層構成
 - **移行先**: Hub & Spoke をベースにした Azure 環境
 - **比較対象**:
   - Spoke1: Rehost
@@ -111,19 +88,17 @@ Azure VM ベースの疑似オンプレ環境ではなく、**Nested Hyper-V** �
 
 詳細は以下を参照してください。
 
-- [`docs/architecture/architecture-onprem-design.md`](./docs/architecture/architecture-onprem-design.md)
-- [`docs/architecture/architecture-onprem-diagrams.md`](./docs/architecture/architecture-onprem-diagrams.md)
-- [`docs/architecture/architecture-cloud-design.md`](./docs/architecture/architecture-cloud-design.md)
-- [`docs/architecture/architecture-cloud-diagrams.md`](./docs/architecture/architecture-cloud-diagrams.md)
-- [`docs/architecture/architecture-nested-hyperv.md`](./docs/architecture/architecture-nested-hyperv.md) — Nested Hyper-V 版の設計・構築手順
+- [`docs/architecture/architecture-nested-hyperv.md`](./docs/architecture/architecture-nested-hyperv.md) — **Nested Hyper-V 疑似オンプレ環境の設計・構築手順**
+- [`docs/architecture/architecture-cloud-design.md`](./docs/architecture/architecture-cloud-design.md) — Hub & Spoke / 移行パターン設計
+- [`docs/architecture/architecture-cloud-diagrams.md`](./docs/architecture/architecture-cloud-diagrams.md) — クラウド構成図
 
 ---
 
 ## 前提条件
 
-- Azure サブスクリプション
-- Azure リソース作成権限
-- PowerShell / Azure CLI の基本操作
+- Azure サブスクリプション（Contributor 以上のロール）
+- Azure CLI / azcopy / PowerShell
+- Windows Server 2022 / 2019 の固定サイズ VHD ファイル（[入手方法](./docs/architecture/architecture-nested-hyperv.md#3-windows-server-vhd-の入手)）
 - 必要に応じて GitHub Copilot ライセンス（モダナイズ系ステップで活用）
 
 ---
@@ -131,9 +106,11 @@ Azure VM ベースの疑似オンプレ環境ではなく、**Nested Hyper-V** �
 ## はじめ方
 
 1. [`docs/README.md`](./docs/README.md) で全体構成を確認
-2. [`docs/handson/1.1-initial-setup.md`](./docs/handson/1.1-initial-setup.md) から初期環境を準備
-3. [`docs/handson/1.2-onprem-deploy.md`](./docs/handson/1.2-onprem-deploy.md) 以降を順に実施
-4. `Step 02 ～ 06` で Azure Arc / Azure Migrate / 各移行パターンを比較
+2. [`docs/architecture/architecture-nested-hyperv.md`](./docs/architecture/architecture-nested-hyperv.md) §2〜3 で前提条件と VHD を準備
+3. 同 §4 で疑似オンプレ環境を構築し、Parts Unlimited をセットアップ
+4. [`docs/handson/1.5-cloud-deploy.md`](./docs/handson/1.5-cloud-deploy.md) でクラウド基盤をデプロイ
+5. `architecture-nested-hyperv.md` §5〜6 で VPN & DNS を構成
+6. `Step 2.1 ～ 2.7` で Azure Arc / Azure Migrate / 各移行パターンを比較
 
 ---
 
@@ -141,3 +118,6 @@ Azure VM ベースの疑似オンプレ環境ではなく、**Nested Hyper-V** �
 
 - `docs/` : ハンズオン ドキュメント
 - `infra/` : ハンズオンで利用する Bicep / ARM / パラメータ / PowerShell 資産
+  - `infra/nested/onprem/` : Nested Hyper-V 疑似オンプレ環境のテンプレート
+  - `infra/nested/network/` : VPN & DNS テンプレート
+  - `infra/cloud/` : クラウド基盤（Hub & Spoke）テンプレート
