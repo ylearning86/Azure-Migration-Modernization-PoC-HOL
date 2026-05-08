@@ -182,35 +182,10 @@ Get-VHD -Path "C:\path\to\ws2019.vhd" | Select-Object VhdFormat, VhdType, Size, 
 | VHD | Dynamic | `Convert-VHD` で Fixed に変換 |
 | VHDX | Fixed / Dynamic | `Convert-VHD` で Fixed VHD に変換 |
 
-<details>
-<summary>Hyper-V PowerShell モジュールの有効化手順（Convert-VHD / Get-VHD を使うために必要）</summary>
-
-Evaluation Center からダウンロードした VHD は **Dynamic（動的）形式** の場合があります。Azure Managed Disk へのアップロードには **Fixed（固定）形式** が必要なため、`Convert-VHD` で変換します。
-
-`Convert-VHD` と `Get-VHD` は Hyper-V PowerShell モジュールに含まれています。フル Hyper-V のインストールは不要で、**管理用モジュールのみ**を有効化すれば使用できます。
-
-**1. 管理者権限の PowerShell** で以下を実行:
-
-```powershell
-Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V-Management-PowerShell -NoRestart
-```
-
-- `RestartNeeded: True` と表示された場合は PC を再起動してください
-- `RestartNeeded: False` であれば再起動不要です
-
-**2. VHD を Fixed 形式に変換:**
-
-```powershell
-# Windows Server 2022
-Convert-VHD -Path ".\ws2022-eval.vhd" -DestinationPath ".\ws2022-fixed.vhd" -VHDType Fixed
-
-# Windows Server 2019
-Convert-VHD -Path ".\ws2019-eval.vhd" -DestinationPath ".\ws2019-fixed.vhd" -VHDType Fixed
-```
-
-> 変換後のファイルサイズは VHD 内の仮想ディスクサイズ（通常 40 GB）になります。変換元の Dynamic VHD よりも大きくなる場合があります。
-
-</details>
+> 動的 VHD や VHDX 形式の場合、事前に変換が必要（**管理者権限の PowerShell** で実行。Hyper-V 機能の有効化が必要）:
+> ```powershell
+> Convert-VHD -Path .\dynamic.vhdx -DestinationPath .\fixed.vhd -VHDType Fixed
+> ```
 
 **ローカル PC** から VHD を Managed Disk としてアップロードし、Hyper-V ホストにアタッチする:
 
