@@ -182,11 +182,6 @@ Get-VHD -Path "C:\path\to\ws2019.vhd" | Select-Object VhdFormat, VhdType, Size, 
 | VHD | Dynamic | `Convert-VHD` で Fixed に変換 |
 | VHDX | Fixed / Dynamic | `Convert-VHD` で Fixed VHD に変換 |
 
-> 動的 VHD や VHDX 形式の場合、事前に変換が必要（**管理者権限の PowerShell** で実行。Hyper-V 機能の有効化が必要）:
-> ```powershell
-> Convert-VHD -Path .\dynamic.vhdx -DestinationPath .\fixed.vhd -VHDType Fixed
-> ```
-
 <details>
 <summary>Hyper-V PowerShell モジュールの有効化手順（Convert-VHD / Get-VHD を使うために必要）</summary>
 
