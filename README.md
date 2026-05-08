@@ -59,15 +59,16 @@ Azure 上の **Nested Hyper-V** で疑似オンプレ環境（`vm-ad01` / `vm-ap
 
 ### フェーズ 2: クラウド移行 HOL
 
-初期環境の準備後、以下の手順で移行評価とモダナイズ比較を進めます。
+初期環境の準備後、以下の手順で移行評価とモダナイズ比較を進めます。  
+Nested Hyper-V 上のゲスト VM（`vm-ad01` / `vm-app01` / `vm-sql01`）を移行元として操作します。
 
 | Step | ドキュメント | 内容 |
 |---|---|---|
 | 2.1 | [`docs/handson/2.1-cloud-explore-onprem.md`](./docs/handson/2.1-cloud-explore-onprem.md) | 移行元環境の現状確認 |
-| 2.2 | [`docs/handson/2.2-cloud-arc-onboard.md`](./docs/handson/2.2-cloud-arc-onboard.md) | Azure Arc 登録 |
+| 2.2 | [`docs/handson/2.2-cloud-arc-onboard.md`](./docs/handson/2.2-cloud-arc-onboard.md) | Azure Arc 登録（ゲスト VM を Arc 対応） |
 | 2.3 | [`docs/handson/2.3-cloud-hybrid-mgmt.md`](./docs/handson/2.3-cloud-hybrid-mgmt.md) | ハイブリッド管理を体験 |
-| 2.4 | [`docs/handson/2.4-cloud-assessment.md`](./docs/handson/2.4-cloud-assessment.md) | Azure Migrate で評価 |
-| 2.5.1 | [`docs/handson/2.5.1-cloud-rehost.md`](./docs/handson/2.5.1-cloud-rehost.md) | Rehost（Lift & Shift）を実施 |
+| 2.4 | [`docs/handson/2.4-cloud-assessment.md`](./docs/handson/2.4-cloud-assessment.md) | Azure Migrate で評価（Hyper-V 検出） |
+| 2.5.1 | [`docs/handson/2.5.1-cloud-rehost.md`](./docs/handson/2.5.1-cloud-rehost.md) | Rehost — Azure Migrate Hyper-V 移行で Lift & Shift |
 | 2.5.2 | [`docs/handson/2.5.2-cloud-db-paas.md`](./docs/handson/2.5.2-cloud-db-paas.md) | DB PaaS 化を実施 |
 | 2.5.3 | [`docs/handson/2.5.3-cloud-containerize.md`](./docs/handson/2.5.3-cloud-containerize.md) | コンテナ化を実施 |
 | 2.5.4 | [`docs/handson/2.5.4-cloud-full-paas.md`](./docs/handson/2.5.4-cloud-full-paas.md) | フル PaaS 化を実施 |
