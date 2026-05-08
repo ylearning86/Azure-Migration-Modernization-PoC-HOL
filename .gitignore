@@ -13,5 +13,12 @@ analyze_time.js
 *.vhd
 *.vhdx
 *.iso
+
+# 作業ログ
+docs/work-log-*.md
+
+# Azure Migrate インストーラー
+AzureMigrateInstaller/
+
 infra/tmp/sql-test*.json
 .vscode/settings.json
