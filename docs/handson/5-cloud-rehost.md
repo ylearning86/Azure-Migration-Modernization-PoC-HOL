@@ -18,7 +18,7 @@
 
 ## 前提条件
 
-- [`2.4-cloud-assessment.md`](./2.4-cloud-assessment.md) の評価が完了している
+- [`4.4-cloud-assessment.md`](./4.4-cloud-assessment.md) の評価が完了している
 - `rg-spoke1`・`vnet-spoke1`（snet-web / snet-db）が作成されている
 - Hub-Spoke VNet ピアリングが接続済みである
 
@@ -359,5 +359,5 @@ az backup vault create \
 
 ## 次のステップ
 
-➡ [Step 6: DB PaaS 化](./2.5.2-cloud-db-paas.md)
-➡ [Step 9: 比較・まとめ](./2.6-cloud-compare.md)
+➡ [Step 6: DB PaaS 化](./6-cloud-db-paas.md)
+➡ [Step 9: 比較・まとめ](./9-cloud-compare.md)

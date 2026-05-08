@@ -19,10 +19,10 @@
 
 ```
 1.2-onprem-deploy → 1.3-onprem-parts-unlimited → [1] Verify-OnpremSetup
-1.5-cloud-deploy                                → [2] Verify-CloudDeploy
+2-cloud-deploy                                  → [2] Verify-CloudDeploy
 1.6-cloud-vpn-connect                           → [3] Verify-VpnConnection
 1.7-cloud-hybrid-dns                            → [4] Verify-HybridDns
-2.2-cloud-arc-onboard                            → [5] Verify-ArcOnboarding
+4.2-cloud-arc-onboard                           → [5] Verify-ArcOnboarding
 ```
 
 ---
@@ -234,9 +234,9 @@ Azure API で Arc リソースの存在を確認し、`az vm run-command invoke`
 ## 関連ドキュメント
 
 - オンプレ環境の確認手順: [`handson/1.4-onprem-verification.md`](./handson/1.4-onprem-verification.md)
-- クラウド基盤デプロイ: [`handson/1.5-cloud-deploy.md`](./handson/1.5-cloud-deploy.md)
+- クラウド基盤デプロイ: [`handson/2-cloud-deploy.md`](./handson/2-cloud-deploy.md)
 - VPN 接続構成: [`../handson/1.6-cloud-vpn-connect.md`](../handson/1.6-cloud-vpn-connect.md)
 - ハイブリッド DNS 構成: [`../handson/1.7-cloud-hybrid-dns.md`](../handson/1.7-cloud-hybrid-dns.md)
-- Azure Arc オンボーディング: [`../handson/2.2-cloud-arc-onboard.md`](../handson/2.2-cloud-arc-onboard.md)
+- Azure Arc オンボーディング: [`../handson/4.2-cloud-arc-onboard.md`](../handson/4.2-cloud-arc-onboard.md)
 - オンプレ設計: [`architecture-onprem-design.md`](./architecture-onprem-design.md)
 - クラウド設計: [`architecture-cloud-design.md`](./architecture-cloud-design.md)

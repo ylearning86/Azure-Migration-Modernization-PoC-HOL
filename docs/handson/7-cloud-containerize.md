@@ -9,7 +9,7 @@
 
 ## 前提条件
 
-- [`2.4-cloud-assessment.md`](./2.4-cloud-assessment.md) の評価が完了している
+- [`4.4-cloud-assessment.md`](./4.4-cloud-assessment.md) の評価が完了している
 - `rg-spoke3` が作成されている
 - **Modernize CLI** がインストール済みである（[GitHub Copilot モダン化エージェント](https://learn.microsoft.com/azure/developer/github-copilot-app-modernization/modernization-agent/overview)）
 
@@ -45,4 +45,4 @@
 
 ## 次のステップ
 
-➡ [Step 9: 比較・まとめ](./2.6-cloud-compare.md)
+➡ [Step 9: 比較・まとめ](./9-cloud-compare.md)

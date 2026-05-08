@@ -28,7 +28,7 @@
 |---|---|---|---|
 | [`architecture-cloud-design.md`](./architecture/architecture-cloud-design.md) | Hub & Spoke / 移行パターン設計 | — | リファレンス |
 | [`architecture-cloud-diagrams.md`](./architecture/architecture-cloud-diagrams.md) | クラウド構成図・移行フロー図 | — | リファレンス |
-| [`handson/1.5-cloud-deploy.md`](./handson/1.5-cloud-deploy.md) | クラウド基盤のデプロイ | 操作 5 分 + 待ち 45〜60 分 | Hub/Spoke + Firewall + DNS Private Resolver |
+| [`handson/2-cloud-deploy.md`](./handson/2-cloud-deploy.md) | クラウド基盤のデプロイ | 操作 5 分 + 待ち 45〜60 分 | Hub/Spoke + Firewall + DNS Private Resolver |
 
 ### 3. ネットワーク接続: オンプレ ↔ クラウド
 
@@ -43,16 +43,16 @@
 
 | Step | ファイル | 内容 | 作業時間 | 備考 |
 |---|---|---|---|---|
-| 4.1 | [`handson/2.1-cloud-explore-onprem.md`](./handson/2.1-cloud-explore-onprem.md) | 移行元環境の確認 | 10〜15 分 | 座学中心。依存関係・移行対象の整理 |
-| 4.2 | [`handson/2.2-cloud-arc-onboard.md`](./handson/2.2-cloud-arc-onboard.md) | Azure Arc 登録 | 操作 15〜20 分 + 待ち 5〜10 分 | スクリプト実行 + Arc エージェント登録待ち |
-| 4.3 | [`handson/2.3-cloud-hybrid-mgmt.md`](./handson/2.3-cloud-hybrid-mgmt.md) | ハイブリッド管理 | 15〜20 分 | Portal 確認・KQL クエリ実行。待ちなし |
-| 4.4 | [`handson/2.4-cloud-assessment.md`](./handson/2.4-cloud-assessment.md) | 移行アセスメント | 操作 30〜45 分 + 待ち 15 分 | Azure Migrate Hyper-V 検出 |
-| 5 | [`handson/2.5.1-cloud-rehost.md`](./handson/2.5.1-cloud-rehost.md) | Rehost（Lift & Shift） | 30〜45 分 | Azure Migrate Hyper-V 移行 |
-| 6 | [`handson/2.5.2-cloud-db-paas.md`](./handson/2.5.2-cloud-db-paas.md) | DB PaaS 化 | 30〜45 分 | DMS 移行 + 接続文字列変更 + 動作確認 |
-| 7 | [`handson/2.5.3-cloud-containerize.md`](./handson/2.5.3-cloud-containerize.md) | コンテナ化 | 45〜60 分 | .NET 8 変換 + Docker + ACR + Container Apps |
-| 8 | [`handson/2.5.4-cloud-full-paas.md`](./handson/2.5.4-cloud-full-paas.md) | フル PaaS 化 | 30〜45 分 | .NET 8 変換 + App Service デプロイ |
-| 9 | [`handson/2.6-cloud-compare.md`](./handson/2.6-cloud-compare.md) | 比較・まとめ | 10〜15 分 | 座学中心。4 パターンの振り返り |
-| 10 | [`handson/2.7-cloud-cleanup.md`](./handson/2.7-cloud-cleanup.md) | リソースのクリーンアップ | 5〜10 分 | リソースグループの削除。課金停止 |
+| 4.1 | [`handson/4.1-cloud-explore-onprem.md`](./handson/4.1-cloud-explore-onprem.md) | 移行元環境の確認 | 10〜15 分 | 座学中心。依存関係・移行対象の整理 |
+| 4.2 | [`handson/4.2-cloud-arc-onboard.md`](./handson/4.2-cloud-arc-onboard.md) | Azure Arc 登録 | 操作 15〜20 分 + 待ち 5〜10 分 | スクリプト実行 + Arc エージェント登録待ち |
+| 4.3 | [`handson/4.3-cloud-hybrid-mgmt.md`](./handson/4.3-cloud-hybrid-mgmt.md) | ハイブリッド管理 | 15〜20 分 | Portal 確認・KQL クエリ実行。待ちなし |
+| 4.4 | [`handson/4.4-cloud-assessment.md`](./handson/4.4-cloud-assessment.md) | 移行アセスメント | 操作 30〜45 分 + 待ち 15 分 | Azure Migrate Hyper-V 検出 |
+| 5 | [`handson/5-cloud-rehost.md`](./handson/5-cloud-rehost.md) | Rehost（Lift & Shift） | 30〜45 分 | Azure Migrate Hyper-V 移行 |
+| 6 | [`handson/6-cloud-db-paas.md`](./handson/6-cloud-db-paas.md) | DB PaaS 化 | 30〜45 分 | DMS 移行 + 接続文字列変更 + 動作確認 |
+| 7 | [`handson/7-cloud-containerize.md`](./handson/7-cloud-containerize.md) | コンテナ化 | 45〜60 分 | .NET 8 変換 + Docker + ACR + Container Apps |
+| 8 | [`handson/8-cloud-full-paas.md`](./handson/8-cloud-full-paas.md) | フル PaaS 化 | 30〜45 分 | .NET 8 変換 + App Service デプロイ |
+| 9 | [`handson/9-cloud-compare.md`](./handson/9-cloud-compare.md) | 比較・まとめ | 10〜15 分 | 座学中心。4 パターンの振り返り |
+| 10 | [`handson/10-cloud-cleanup.md`](./handson/10-cloud-cleanup.md) | リソースのクリーンアップ | 5〜10 分 | リソースグループの削除。課金停止 |
 
 ### 付録: トラブルシューティング
 
@@ -80,7 +80,7 @@
    - 同 §4（環境構築）
    - 同 備考: SQL Server + [`handson/1.3-onprem-parts-unlimited.md`](./handson/1.3-onprem-parts-unlimited.md)（アプリセットアップ）
 2. **Step 2: クラウド環境を準備**
-   - [`handson/1.5-cloud-deploy.md`](./handson/1.5-cloud-deploy.md)
+   - [`handson/2-cloud-deploy.md`](./handson/2-cloud-deploy.md)
 3. **Step 3: ネットワーク接続を構成**
    - [`architecture-nested-hyperv.md`](./architecture/architecture-nested-hyperv.md) §5（VPN）
    - 同 §6（ハイブリッド DNS）

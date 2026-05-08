@@ -10,7 +10,7 @@
 
 ## 前提条件
 
-- [`2.4-cloud-assessment.md`](./2.4-cloud-assessment.md) の評価が完了している
+- [`4.4-cloud-assessment.md`](./4.4-cloud-assessment.md) の評価が完了している
 - `rg-spoke4` が作成されている
 - Bastion (`bas-hub`) 経由で DC01 / APP01 / DB01 に接続できる
 - S2S VPN が接続済みで、ハイブリッド DNS が構成済みである
@@ -416,4 +416,4 @@ v1 API の run-command は同時 1 つしか実行できない。v2 API (`az vm 
 
 ## 次のステップ
 
-➡ [Step 9: 比較・まとめ](./2.6-cloud-compare.md)
+➡ [Step 9: 比較・まとめ](./9-cloud-compare.md)

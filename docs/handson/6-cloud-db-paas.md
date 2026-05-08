@@ -9,7 +9,7 @@ Web アプリは VM のまま、`DB01` のデータベースを **Azure SQL Data
 
 ## 前提条件
 
-- [`2.4-cloud-assessment.md`](./2.4-cloud-assessment.md) の評価が完了している
+- [`4.4-cloud-assessment.md`](./4.4-cloud-assessment.md) の評価が完了している
 - `rg-spoke2` が作成されている
 
 ## 移行先構成
@@ -43,4 +43,4 @@ Web アプリは VM のまま、`DB01` のデータベースを **Azure SQL Data
 
 ## 次のステップ
 
-➡ [Step 9: 比較・まとめ](./2.6-cloud-compare.md)
+➡ [Step 9: 比較・まとめ](./9-cloud-compare.md)

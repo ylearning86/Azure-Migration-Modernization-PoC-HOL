@@ -52,18 +52,18 @@ Nested Hyper-V 上のゲスト VM（`vm-ad01` / `vm-app01` / `vm-sql01`）を移
 | 0 | [`architecture-nested-hyperv.md`](./docs/architecture/architecture-nested-hyperv.md) §2〜3 | 前提条件確認 / Windows Server VHD の入手 | 事前準備 |
 | 1 | 同 §4 (4.1〜4.8) | 疑似オンプレ環境の構築（Bicep デプロイ → VHD アップロード → VM 構築 → ドメイン参加） | 2〜3 時間 |
 | 1+ | 同 備考: SQL Server + [`1.3`](./docs/handson/1.3-onprem-parts-unlimited.md) | SQL Server インストール + Parts Unlimited セットアップ | 30〜60 分 |
-| 2 | [`1.5-cloud-deploy.md`](./docs/handson/1.5-cloud-deploy.md) | 移行先クラウド基盤（Hub & Spoke）をデプロイ | 45〜60 分 |
+| 2 | [`2-cloud-deploy.md`](./docs/handson/2-cloud-deploy.md) | 移行先クラウド基盤（Hub & Spoke）をデプロイ | 45〜60 分 |
 | 3 | [`architecture-nested-hyperv.md`](./docs/architecture/architecture-nested-hyperv.md) §5〜6 | VPN 接続 + ハイブリッド DNS を構成 | 45〜60 分 |
-| 4.1 | [`2.1-cloud-explore-onprem.md`](./docs/handson/2.1-cloud-explore-onprem.md) | 移行元環境の現状確認 | 10〜15 分 |
-| 4.2 | [`2.2-cloud-arc-onboard.md`](./docs/handson/2.2-cloud-arc-onboard.md) | Azure Arc 登録（ゲスト VM を Arc 対応） | 15〜20 分 |
-| 4.3 | [`2.3-cloud-hybrid-mgmt.md`](./docs/handson/2.3-cloud-hybrid-mgmt.md) | ハイブリッド管理を体験 | 15〜20 分 |
-| 4.4 | [`2.4-cloud-assessment.md`](./docs/handson/2.4-cloud-assessment.md) | Azure Migrate で評価（Hyper-V 検出） | 30〜45 分 |
-| 5 | [`2.5.1-cloud-rehost.md`](./docs/handson/2.5.1-cloud-rehost.md) | Rehost — Azure Migrate Hyper-V 移行で Lift & Shift | 30〜45 分 |
-| 6 | [`2.5.2-cloud-db-paas.md`](./docs/handson/2.5.2-cloud-db-paas.md) | DB PaaS 化を実施 | 30〜45 分 |
-| 7 | [`2.5.3-cloud-containerize.md`](./docs/handson/2.5.3-cloud-containerize.md) | コンテナ化を実施 | 45〜60 分 |
-| 8 | [`2.5.4-cloud-full-paas.md`](./docs/handson/2.5.4-cloud-full-paas.md) | フル PaaS 化を実施 | 30〜45 分 |
-| 9 | [`2.6-cloud-compare.md`](./docs/handson/2.6-cloud-compare.md) | 結果の比較とまとめ | 10〜15 分 |
-| 10 | [`2.7-cloud-cleanup.md`](./docs/handson/2.7-cloud-cleanup.md) | リソースのクリーンアップ | 5〜10 分 |
+| 4.1 | [`4.1-cloud-explore-onprem.md`](./docs/handson/4.1-cloud-explore-onprem.md) | 移行元環境の現状確認 | 10〜15 分 |
+| 4.2 | [`4.2-cloud-arc-onboard.md`](./docs/handson/4.2-cloud-arc-onboard.md) | Azure Arc 登録（ゲスト VM を Arc 対応） | 15〜20 分 |
+| 4.3 | [`4.3-cloud-hybrid-mgmt.md`](./docs/handson/4.3-cloud-hybrid-mgmt.md) | ハイブリッド管理を体験 | 15〜20 分 |
+| 4.4 | [`4.4-cloud-assessment.md`](./docs/handson/4.4-cloud-assessment.md) | Azure Migrate で評価（Hyper-V 検出） | 30〜45 分 |
+| 5 | [`5-cloud-rehost.md`](./docs/handson/5-cloud-rehost.md) | Rehost — Azure Migrate Hyper-V 移行で Lift & Shift | 30〜45 分 |
+| 6 | [`6-cloud-db-paas.md`](./docs/handson/6-cloud-db-paas.md) | DB PaaS 化を実施 | 30〜45 分 |
+| 7 | [`7-cloud-containerize.md`](./docs/handson/7-cloud-containerize.md) | コンテナ化を実施 | 45〜60 分 |
+| 8 | [`8-cloud-full-paas.md`](./docs/handson/8-cloud-full-paas.md) | フル PaaS 化を実施 | 30〜45 分 |
+| 9 | [`9-cloud-compare.md`](./docs/handson/9-cloud-compare.md) | 結果の比較とまとめ | 10〜15 分 |
+| 10 | [`10-cloud-cleanup.md`](./docs/handson/10-cloud-cleanup.md) | リソースのクリーンアップ | 5〜10 分 |
 
 ---
 
