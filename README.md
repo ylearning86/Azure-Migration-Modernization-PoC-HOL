@@ -78,6 +78,25 @@
 | 2.6 | [`docs/handson/2.6-cloud-compare.md`](./docs/handson/2.6-cloud-compare.md) | 結果の比較とまとめ |
 | 2.7 | [`docs/handson/2.7-cloud-cleanup.md`](./docs/handson/2.7-cloud-cleanup.md) | リソースのクリーンアップ |
 
+### Nested Hyper-V 版（代替パス）
+
+Azure VM ベースの疑似オンプレ環境ではなく、**Nested Hyper-V** を使って真の VM による疑似オンプレ環境を構築する場合は、以下のフェーズ構成で進めます。Azure Migrate の Hyper-V 検出/移行を体験でき、より本番に近いシナリオが可能です。
+
+| フェーズ | 対応ドキュメント | 内容 | 所要時間目安 |
+|---|---|---|---|
+| 0: 準備 | [`architecture-nested-hyperv.md`](./docs/architecture/architecture-nested-hyperv.md) §2〜3 | 前提条件確認 / VHD 入手 | 事前準備 |
+| 1: 疑似オンプレ構築 | 同 §4 (4.1〜4.8) | Bicep デプロイ → VHD アップロード → VM 構築 → ドメイン参加 | 2〜3 時間 |
+| 1+: SQL / アプリ | 同 備考: SQL Server + [`1.3`](./docs/handson/1.3-onprem-parts-unlimited.md) | SQL Server インストール + Parts Unlimited セットアップ | 30〜60 分 |
+| 2: クラウド基盤 | [`1.5-cloud-deploy.md`](./docs/handson/1.5-cloud-deploy.md) | Hub & Spoke デプロイ | 45〜60 分 |
+| 3: VPN & DNS | [`architecture-nested-hyperv.md`](./docs/architecture/architecture-nested-hyperv.md) §5〜6 | VPN 接続 + Hybrid DNS | 45〜60 分 |
+| 4: 移行前ステップ | [`2.1`](./docs/handson/2.1-cloud-explore-onprem.md)〜[`2.4`](./docs/handson/2.4-cloud-assessment.md) | 環境確認 → Arc → 管理 → アセスメント | 1〜2 時間 |
+| 5: Rehost | [`2.5.1`](./docs/handson/2.5.1-cloud-rehost.md) | Azure Migrate で Lift & Shift | 45〜60 分 |
+
+> **メイン手順との主な違い**:
+> - VM 名: `DC01`/`DB01`/`APP01` → `vm-ad01`/`vm-app01`/`vm-sql01`
+> - IP 体系: `10.0.1.x` → `192.168.100.x`（Hyper-V 内部 NAT）
+> - Rehost 方式: Azure Site Recovery (A2A) → Azure Migrate Hyper-V 移行
+
 ---
 
 ## アーキテクチャ概要
@@ -96,6 +115,7 @@
 - [`docs/architecture/architecture-onprem-diagrams.md`](./docs/architecture/architecture-onprem-diagrams.md)
 - [`docs/architecture/architecture-cloud-design.md`](./docs/architecture/architecture-cloud-design.md)
 - [`docs/architecture/architecture-cloud-diagrams.md`](./docs/architecture/architecture-cloud-diagrams.md)
+- [`docs/architecture/architecture-nested-hyperv.md`](./docs/architecture/architecture-nested-hyperv.md) — Nested Hyper-V 版の設計・構築手順
 
 ---
 

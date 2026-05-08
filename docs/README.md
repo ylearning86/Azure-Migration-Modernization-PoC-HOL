@@ -67,6 +67,26 @@
 | [`handson/troubleshoot-cloud-deploy.md`](./handson/troubleshoot-cloud-deploy.md) | Firewall / DNS Resolver のデプロイ失敗 | `rg-hub` 内リソースのリカバリ手順 |
 | [`handson/troubleshoot-domain-join.md`](./handson/troubleshoot-domain-join.md) | ドメイン参加の失敗 | DB01 / APP01 が WORKGROUP のままの場合 |
 
+### 付録: Nested Hyper-V 版（代替パス）
+
+Azure VM ベースの疑似オンプレ環境の代わりに Nested Hyper-V を使う場合のフェーズ構成です。Azure Migrate の Hyper-V 検出/移行シナリオを体験できます。
+
+| ファイル | 内容 | 備考 |
+|---|---|---|
+| [`architecture-nested-hyperv.md`](./architecture/architecture-nested-hyperv.md) | Nested Hyper-V 疑似オンプレ環境の設計・構築手順 | §2〜3: 準備、§4: 環境構築、§5: VPN、§6: DNS |
+
+**フェーズ構成:**
+
+| フェーズ | 対応セクション | 内容 | 所要時間 |
+|---|---|---|---|
+| 0: 準備 | §2〜3 | 前提条件確認 / VHD 入手 | 事前準備 |
+| 1: 疑似オンプレ構築 | §4 (4.1〜4.8) | Bicep デプロイ → VHD アップロード → VM 構築 → ドメイン参加 | 2〜3 時間 |
+| 1+: SQL / アプリ | 備考: SQL Server + [`1.3`](./handson/1.3-onprem-parts-unlimited.md) | SQL Server インストール + Parts Unlimited セットアップ | 30〜60 分 |
+| 2: クラウド基盤 | [`1.5`](./handson/1.5-cloud-deploy.md) | Hub & Spoke デプロイ | 45〜60 分 |
+| 3: VPN & DNS | §5〜6 | VPN 接続 + Hybrid DNS | 45〜60 分 |
+| 4: 移行前ステップ | [`2.1`](./handson/2.1-cloud-explore-onprem.md)〜[`2.4`](./handson/2.4-cloud-assessment.md) | 環境確認 → Arc → 管理 → アセスメント | 1〜2 時間 |
+| 5: Rehost | [`2.5.1`](./handson/2.5.1-cloud-rehost.md) | Azure Migrate で Lift & Shift | 45〜60 分 |
+
 ---
 
 ## 🎯 このドキュメント群の役割
