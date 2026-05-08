@@ -44,36 +44,26 @@ Azure 上の **Nested Hyper-V** で疑似オンプレ環境（`vm-ad01` / `vm-ap
 
 ## ラボ シナリオ
 
-### フェーズ 1: 初期環境構築
-
-まずは、ハンズオン全体で共通利用する移行元・移行先の環境を準備します。  
+Nested Hyper-V 上のゲスト VM（`vm-ad01` / `vm-app01` / `vm-sql01`）を移行元として、クラウド基盤を構築し、移行評価とモダナイズ比較を進めます。  
 疑似オンプレ環境は Nested Hyper-V で構築します。設計・構築手順の詳細は [`docs/architecture/architecture-nested-hyperv.md`](./docs/architecture/architecture-nested-hyperv.md) を参照してください。
 
 | Step | ドキュメント | 内容 | 所要時間目安 |
 |---|---|---|---|
 | 0 | [`architecture-nested-hyperv.md`](./docs/architecture/architecture-nested-hyperv.md) §2〜3 | 前提条件確認 / Windows Server VHD の入手 | 事前準備 |
 | 1 | 同 §4 (4.1〜4.8) | 疑似オンプレ環境の構築（Bicep デプロイ → VHD アップロード → VM 構築 → ドメイン参加） | 2〜3 時間 |
-| 1+ | 同 備考: SQL Server + [`1.3-onprem-parts-unlimited.md`](./docs/handson/1.3-onprem-parts-unlimited.md) | SQL Server インストール + Parts Unlimited セットアップ | 30〜60 分 |
+| 1+ | 同 備考: SQL Server + [`1.3`](./docs/handson/1.3-onprem-parts-unlimited.md) | SQL Server インストール + Parts Unlimited セットアップ | 30〜60 分 |
 | 2 | [`1.5-cloud-deploy.md`](./docs/handson/1.5-cloud-deploy.md) | 移行先クラウド基盤（Hub & Spoke）をデプロイ | 45〜60 分 |
 | 3 | [`architecture-nested-hyperv.md`](./docs/architecture/architecture-nested-hyperv.md) §5〜6 | VPN 接続 + ハイブリッド DNS を構成 | 45〜60 分 |
-
-### フェーズ 2: クラウド移行 HOL
-
-初期環境の準備後、以下の手順で移行評価とモダナイズ比較を進めます。  
-Nested Hyper-V 上のゲスト VM（`vm-ad01` / `vm-app01` / `vm-sql01`）を移行元として操作します。
-
-| Step | ドキュメント | 内容 |
-|---|---|---|
-| 2.1 | [`docs/handson/2.1-cloud-explore-onprem.md`](./docs/handson/2.1-cloud-explore-onprem.md) | 移行元環境の現状確認 |
-| 2.2 | [`docs/handson/2.2-cloud-arc-onboard.md`](./docs/handson/2.2-cloud-arc-onboard.md) | Azure Arc 登録（ゲスト VM を Arc 対応） |
-| 2.3 | [`docs/handson/2.3-cloud-hybrid-mgmt.md`](./docs/handson/2.3-cloud-hybrid-mgmt.md) | ハイブリッド管理を体験 |
-| 2.4 | [`docs/handson/2.4-cloud-assessment.md`](./docs/handson/2.4-cloud-assessment.md) | Azure Migrate で評価（Hyper-V 検出） |
-| 2.5.1 | [`docs/handson/2.5.1-cloud-rehost.md`](./docs/handson/2.5.1-cloud-rehost.md) | Rehost — Azure Migrate Hyper-V 移行で Lift & Shift |
-| 2.5.2 | [`docs/handson/2.5.2-cloud-db-paas.md`](./docs/handson/2.5.2-cloud-db-paas.md) | DB PaaS 化を実施 |
-| 2.5.3 | [`docs/handson/2.5.3-cloud-containerize.md`](./docs/handson/2.5.3-cloud-containerize.md) | コンテナ化を実施 |
-| 2.5.4 | [`docs/handson/2.5.4-cloud-full-paas.md`](./docs/handson/2.5.4-cloud-full-paas.md) | フル PaaS 化を実施 |
-| 2.6 | [`docs/handson/2.6-cloud-compare.md`](./docs/handson/2.6-cloud-compare.md) | 結果の比較とまとめ |
-| 2.7 | [`docs/handson/2.7-cloud-cleanup.md`](./docs/handson/2.7-cloud-cleanup.md) | リソースのクリーンアップ |
+| 4.1 | [`2.1-cloud-explore-onprem.md`](./docs/handson/2.1-cloud-explore-onprem.md) | 移行元環境の現状確認 | 10〜15 分 |
+| 4.2 | [`2.2-cloud-arc-onboard.md`](./docs/handson/2.2-cloud-arc-onboard.md) | Azure Arc 登録（ゲスト VM を Arc 対応） | 15〜20 分 |
+| 4.3 | [`2.3-cloud-hybrid-mgmt.md`](./docs/handson/2.3-cloud-hybrid-mgmt.md) | ハイブリッド管理を体験 | 15〜20 分 |
+| 4.4 | [`2.4-cloud-assessment.md`](./docs/handson/2.4-cloud-assessment.md) | Azure Migrate で評価（Hyper-V 検出） | 30〜45 分 |
+| 5 | [`2.5.1-cloud-rehost.md`](./docs/handson/2.5.1-cloud-rehost.md) | Rehost — Azure Migrate Hyper-V 移行で Lift & Shift | 30〜45 分 |
+| 6 | [`2.5.2-cloud-db-paas.md`](./docs/handson/2.5.2-cloud-db-paas.md) | DB PaaS 化を実施 | 30〜45 分 |
+| 7 | [`2.5.3-cloud-containerize.md`](./docs/handson/2.5.3-cloud-containerize.md) | コンテナ化を実施 | 45〜60 分 |
+| 8 | [`2.5.4-cloud-full-paas.md`](./docs/handson/2.5.4-cloud-full-paas.md) | フル PaaS 化を実施 | 30〜45 分 |
+| 9 | [`2.6-cloud-compare.md`](./docs/handson/2.6-cloud-compare.md) | 結果の比較とまとめ | 10〜15 分 |
+| 10 | [`2.7-cloud-cleanup.md`](./docs/handson/2.7-cloud-cleanup.md) | リソースのクリーンアップ | 5〜10 分 |
 
 ---
 
@@ -107,11 +97,11 @@ Nested Hyper-V 上のゲスト VM（`vm-ad01` / `vm-app01` / `vm-sql01`）を移
 ## はじめ方
 
 1. [`docs/README.md`](./docs/README.md) で全体構成を確認
-2. [`docs/architecture/architecture-nested-hyperv.md`](./docs/architecture/architecture-nested-hyperv.md) §2〜3 で前提条件と VHD を準備
-3. 同 §4 で疑似オンプレ環境を構築し、Parts Unlimited をセットアップ
-4. [`docs/handson/1.5-cloud-deploy.md`](./docs/handson/1.5-cloud-deploy.md) でクラウド基盤をデプロイ
-5. `architecture-nested-hyperv.md` §5〜6 で VPN & DNS を構成
-6. `Step 2.1 ～ 2.7` で Azure Arc / Azure Migrate / 各移行パターンを比較
+2. Step 0: 前提条件と VHD を準備
+3. Step 1: 疑似オンプレ環境を構築し、Parts Unlimited をセットアップ
+4. Step 2: クラウド基盤をデプロイ
+5. Step 3: VPN & DNS を構成
+6. Step 4〜10: Azure Arc / Azure Migrate / 各移行パターンを比較・クリーンアップ
 
 ---
 

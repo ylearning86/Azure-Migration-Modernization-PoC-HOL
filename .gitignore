@@ -8,5 +8,10 @@ docs/session-analysis.md
 # 一時ファイル・認証情報を含むファイル
 app.zip
 analyze_time.js
+
+# VHD / ISO ファイル
+*.vhd
+*.vhdx
+*.iso
 infra/tmp/sql-test*.json
 .vscode/settings.json
