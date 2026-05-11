@@ -8,6 +8,9 @@ docs/session-analysis.md
 # 一時ファイル・認証情報を含むファイル
 app.zip
 analyze_time.js
+*.pem
+*.VaultCredentials
+AzureSiteRecoveryProvider.exe
 
 # VHD / ISO ファイル
 *.vhd
