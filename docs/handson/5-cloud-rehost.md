@@ -68,6 +68,22 @@ psping64 -accepteula -t 192.168.100.12:1433
 
 移行中にサービスが停止すると応答が途切れるため、ダウンタイムの開始・終了時刻を確認できます。
 
+**（任意）HTTP レスポンス監視**（PowerShell ウィンドウで並行実行）:
+
+```powershell
+# Parts Unlimited の HTTP 応答を 2 秒間隔で監視
+while ($true) {
+    $ts = Get-Date -Format "HH:mm:ss"
+    try {
+        $r = Invoke-WebRequest -Uri "http://192.168.100.11" -TimeoutSec 3 -UseBasicParsing -ErrorAction Stop
+        Write-Host "$ts HTTP $($r.StatusCode) OK" -ForegroundColor Green
+    } catch {
+        Write-Host "$ts HTTP FAIL" -ForegroundColor Red
+    }
+    Start-Sleep -Seconds 2
+}
+```
+
 > **補足**: PsPing は [Sysinternals PSTools](https://learn.microsoft.com/ja-jp/sysinternals/downloads/psping) に含まれるスタンドアロン exe で、コマンドプロンプト・PowerShell の両方で使用可能です。
 
 </details>
@@ -124,16 +140,21 @@ Invoke-WebRequest -Uri '<VaultCredentials SAS URL>' -OutFile C:\ASRProvider\regi
 ホスト VM の管理者 PowerShell で実行:
 
 ```powershell
-# 展開
-& C:\ASRProvider\AzureSiteRecoveryProvider.exe /q /x:"C:\ASRProvider\Extracted"
+# 展開（サイレント展開。数秒で完了）
+Start-Process -FilePath "C:\ASRProvider\AzureSiteRecoveryProvider.exe" -ArgumentList "/q", "/x:C:\ASRProvider\Extracted" -Wait -NoNewWindow
 
-# インストール
+# 展開結果を確認（setupdr.exe が存在すること）
+Get-ChildItem C:\ASRProvider\Extracted
+
+# インストール（1〜2 分）
 cd C:\ASRProvider\Extracted
 .\setupdr.exe /i
 
 # 登録
 & "C:\Program Files\Microsoft Azure Site Recovery Provider\DRConfigurator.exe" /r /Credentials "C:\ASRProvider\registration-key.VaultCredentials"
 ```
+
+> **トラブルシューティング**: `/q /x:` オプションで展開先が作成されない場合は `Start-Process` の `-Wait` を付けて実行してください。展開完了前に次のコマンドが実行されるとエラーになります。
 
 #### 1-4. 登録の完了
 
@@ -206,7 +227,23 @@ vm-app01 と vm-sql01 それぞれで実行:
 | SQL Server | SQL テスト VM に Bastion 接続 → `Get-Service MSSQLSERVER` |
 | Parts Unlimited | Web テスト VM 上のブラウザで `http://localhost` にアクセス |
 
-> **注意**: テスト VM の Web.config 接続文字列はまだ旧 IP（`192.168.100.12`）を指しているため、Parts Unlimited は DB 接続エラーになります。これはテスト移行の段階では想定内です。動作を確認したい場合は、テスト Web VM 上で Web.config を一時的にテスト SQL VM の IP に変更してください。
+> **注意**: テスト VM の Web.config 接続文字列はまだ旧 IP（`192.168.100.12`）を指しているため、Parts Unlimited は DB 接続エラー（`The network path was not found` / `SqlException`）になります。これはテスト移行の段階では想定内です。
+>
+> 動作を確認したい場合は、テスト Web VM 上で接続文字列をテスト SQL VM の IP に変更してください:
+>
+> ```powershell
+> # テスト Web VM（vm-app01-test）上で実行
+> $webConfig = 'C:\inetpub\PartsUnlimited\Web.config'
+> [xml]$xml = Get-Content $webConfig
+> $conn = $xml.configuration.connectionStrings.add | Where-Object { $_.name -eq 'DefaultConnectionString' }
+> $conn.connectionString = $conn.connectionString -replace '192\.168\.100\.12', '<テスト SQL VM の IP>'
+> $xml.Save($webConfig)
+> iisreset
+> ```
+>
+> テスト VM の IP は Portal で確認するか、CLI で `az vm list-ip-addresses -g rg-spoke1 -o table` を実行してください。
+>
+> **Azure Migrate の検出範囲について**: Azure Migrate はサーバー・ソフトウェア・ネットワーク依存関係を検出しますが、Web.config 内の接続文字列（IP やパスワード）は読み取りません。コードレベルの分析が必要な場合は、[GitHub Copilot Code Insights](./4.4-cloud-assessment.md) や AppCAT を併用してください。
 
 #### 3-3. テスト移行のクリーンアップ
 
